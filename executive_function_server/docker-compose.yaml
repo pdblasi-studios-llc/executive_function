@@ -1,0 +1,54 @@
+services:
+  # Development services
+  postgres:
+    image: postgres:16.3
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: executive_function
+      POSTGRES_PASSWORD: "2AzvVukI2ge2xjlfh0Gq4whvJx57cmSS"
+    volumes:
+      - executive_function_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - dev
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "uthh2zSVeSC7nUg4e4U8mosnwrUfWWD4"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - dev
+
+  # Test services
+  postgres_test:
+    image: postgres:16.3
+    ports:
+      - '9090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: executive_function_test
+      POSTGRES_PASSWORD: "OUkhd2V06geHi3M_0Kq7GTZDk0LzXjrv"
+    volumes:
+      - executive_function_test_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - test
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - '9091:6379'
+    command: redis-server --requirepass "1VvBtDOjdadmQLwvWxMMbgajQkc3dmqV"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - test
+
+volumes:
+  executive_function_data:
+  executive_function_test_data:
